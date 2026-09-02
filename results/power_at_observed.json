@@ -1,0 +1,90 @@
+{
+  "seed": 0,
+  "n_sims": 200,
+  "rows": [
+    {
+      "dataset": "persona",
+      "model": "qwen",
+      "observed": 0.6005874695578548,
+      "power_at_observed": 0.075,
+      "usable_sims": 1000,
+      "mde": 0.68125,
+      "n_positives": 76,
+      "claims_with_positives": 64,
+      "score_icc": 0.6339813739284041,
+      "floor_hi": 0.57564283706041,
+      "floor_width": 0.15064646123900144,
+      "seed": 0
+    },
+    {
+      "dataset": "social proof",
+      "model": "qwen",
+      "observed": 0.5772205786743706,
+      "power_at_observed": 0.065,
+      "usable_sims": 998,
+      "mde": 0.6625000000000001,
+      "n_positives": 92,
+      "claims_with_positives": 74,
+      "score_icc": 0.750786466478966,
+      "floor_hi": 0.5701133252849931,
+      "floor_width": 0.1388350889814003,
+      "seed": 0
+    },
+    {
+      "dataset": "few-shot",
+      "model": "qwen",
+      "observed": 0.597507560196908,
+      "power_at_observed": 0.03,
+      "usable_sims": 978,
+      "mde": 0.73125,
+      "n_positives": 50,
+      "claims_with_positives": 37,
+      "score_icc": 0.5778484795889873,
+      "floor_hi": 0.5860021895216219,
+      "floor_width": 0.17851172718110703,
+      "seed": 0
+    },
+    {
+      "dataset": "persona",
+      "model": "gemma",
+      "observed": 0.6260021096223332,
+      "power_at_observed": 0.085,
+      "usable_sims": 914,
+      "mde": 0.7625,
+      "n_positives": 29,
+      "claims_with_positives": 26,
+      "score_icc": 0.8283808364154206,
+      "floor_hi": 0.6149670791798079,
+      "floor_width": 0.2346665957760467,
+      "seed": 0
+    },
+    {
+      "dataset": "social proof",
+      "model": "gemma",
+      "observed": 0.7043177926656188,
+      "power_at_observed": 0.43,
+      "usable_sims": 926,
+      "mde": 0.75625,
+      "n_positives": 36,
+      "claims_with_positives": 29,
+      "score_icc": 0.7794597986317481,
+      "floor_hi": 0.6051215886929444,
+      "floor_width": 0.21256915538691512,
+      "seed": 0
+    },
+    {
+      "dataset": "few-shot",
+      "model": "gemma",
+      "observed": 0.6154598918297549,
+      "power_at_observed": NaN,
+      "usable_sims": 454,
+      "mde": null,
+      "n_positives": 22,
+      "claims_with_positives": 14,
+      "score_icc": 0.44183585912108225,
+      "floor_hi": 0.6387704724600954,
+      "floor_width": 0.28304614627419034,
+      "seed": 0
+    }
+  ]
+}

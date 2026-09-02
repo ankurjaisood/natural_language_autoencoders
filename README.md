@@ -1,13 +1,11 @@
 # Natural Language Autoencoders (NLA) — faithfulness audit
 
-**Write-up: [Natural Language Autoencoders can verbalize influence but not whether it changed the outcome](https://jaisood.substack.com/p/natural-language-autoencoders-can)**
-
 This branch is an audit of two released NLA checkpoints. We influence a model, verbalize the
 activation behind its answer, and ask whether the readout reports three things: which way the
 influence pushed, which option the model chose, and whether the influence changed that choice.
 The readouts answer the first two and not the third.
 
-Everything in the write-up is reproduced by the code and artifacts on this branch.
+Every reported number is reproduced by the code and artifacts on this branch.
 [REPRODUCE.md](REPRODUCE.md) covers the environment, pinned checkpoint SHAs, and what each tier
 does or does not reproduce exactly.
 
@@ -26,11 +24,11 @@ anything that moved further than its tier allows. Tier 1 should be exact.
 
 ## Reproduce one result at a time
 
-Each row regenerates the numbers behind one section of the write-up. All of them write to
+Each row regenerates the numbers behind one part of the audit. All of them write to
 `results_repro/` and leave the committed `results/` untouched, so you can diff afterwards.
 `$V` is `.venv/bin/python`.
 
-| Result in the write-up | Tier | Command |
+| Result | Tier | Command |
 |---|---|---|
 | Both models moved by influence | 1 | rates are counted from the committed trial sets in `results/trials/` |
 | The readout carries influence and answer but not cause | 1 | `$V -m bench.run_readout_capacity --raw results/trials/sycophancy_influence_raw.json --out-dir results_repro` (repeat for the other four trial files) |
@@ -46,6 +44,46 @@ Two supporting controls, both tier 1:
 $V -m bench.run_classifier_scrutiny --trials-dir results/trials --out-dir results_repro
 $V -m bench.run_readout_signal      --trials-dir results/trials --out-dir results_repro
 ```
+
+## Reproduce the paper's tables and figures
+
+The workshop paper adds intervals, an empirical floor, and a power analysis on top of the point
+estimates above. These write to `results/` by default; pass `--out-dir results_repro` to leave the
+committed artifacts untouched.
+
+| Artifact in the paper | Tier | Command |
+|---|---|---|
+| Table 4, what readouts carry | 1 | `$V -m bench.run_bootstrap_cis --out-dir results_repro` |
+| Table 5, minimum detectable effect | 1 | `$V -m bench.run_mde --out-dir results_repro` |
+| Table 5, power at observed | 1 | `$V -m bench.run_power_at_observed --mde results_repro/mde.json --out-dir results_repro` |
+| Table 6, probe columns | 2 | `$V -m bench.run_probe_cis --model qwen --out-dir results_repro` |
+| Table 6, embedding column | 1 | `$V -m bench.run_embedding_reader --out-dir results_repro` |
+| Appendix, probe sweep across depth | 1 | `$V -m bench.run_layer_sweep --model qwen --out-dir results_repro` |
+| Floor-width robustness check | 1 | `$V -m bench.run_fixed_floor_check` |
+
+Two ordering constraints. `run_probe_cis` is the only GPU step here and it saves every decoder
+block's activations to `results/activations/`, which `run_layer_sweep` then reads on CPU — so the
+sweep needs the probe run first. And `run_power_at_observed` reads the MDE grid, so it needs
+`run_mde` first.
+
+`results/activations/` is gitignored: 582 MB across four files, each over GitHub's 100 MB limit,
+and regenerable by the command above.
+
+Once the artifacts exist, the floats are generated rather than hand-written, so the numbers cannot
+drift from `results/*.json`:
+
+```bash
+$V scripts/gen_tables.py            # Tables 1, 2, 4, 5, 6
+$V scripts/gen_influence_box.py     # Table 3, the four influence conditions
+$V scripts/gen_appendix_tables.py   # Tables A1 and A2
+$V scripts/gen_figures.py           # Figure 1
+$V scripts/gen_appendix_figs.py     # Appendix prompt and chat-template figures
+$V -m bench.verify_claims           # recompute every derived number in the paper
+```
+
+`verify_claims` exists because derived values — "five of six", "89% of the full probe" — are
+correct when written and stop being correct when scope shifts. Run it against a draft with
+`--check paper.tex` and it flags any `N of M` the artifacts no longer support.
 
 Every script takes `--model {qwen,gemma}`. Pass `--raw` explicitly: without it `--out-dir`
 doubles as the input directory and the run fails looking for trials it has not written yet.
@@ -70,183 +108,21 @@ differ in composition while the reported statistics hold.
 script *reads* lives in `results/trials/`; everything it *writes* goes to the matching folder.
 [REPRODUCE.md](REPRODUCE.md) has the full map.
 
----
+The paper's artifacts are the exception: they sit at the root of `results/` rather than in a
+per-test folder, because each one spans every test. Those are `bootstrap_cis.json`, `mde.json`,
+`power_at_observed.json`, `mde_fixed_floor.json`, `probe_cis_qwen.json`, `layer_sweep_qwen.json`,
+`embedding_reader.json` and `axis_alignment.json`. Every number in the paper comes from one of
+them, and `bench.verify_claims` recomputes the derived ones.
 
-
-Open-source library accompanying the Anthropic Transformer Circuits post
-**[Natural Language Autoencoders Produce Unsupervised Explanations of LLM Activations](https://transformer-circuits.pub/2026/nla/index.html)**.
-
-📄 [Blog post](https://www.anthropic.com/research/natural-language-autoencoders) · ▶ [Video walkthrough](https://www.youtube.com/watch?v=j2knrqAzYVY) · 🔬 [Try the released NLAs on Neuronpedia](https://www.neuronpedia.org/nla)
-
----
-
-A Natural Language Autoencoder is a pair of fine-tuned LMs that map
-residual-stream activation vectors to natural language and back:
-
-| | direction | mechanism |
-|---|---|---|
-| **AV** (activation verbalizer) | `vector → text` | inject the vector as a single token embedding into a fixed prompt, autoregress a description |
-| **AR** (activation reconstructor) | `text → vector` | truncated K+1-layer LM + `Linear(d, d)` head, extract at the final token |
-
-Both vectors are L2-normalised before comparison, so the round-trip
-`MSE(reconstructed, original) = 2(1 − cos)` measures direction agreement only.
-Low MSE means the AR could recover the original direction from the AV's words
-alone, which implies the explanation captures the information in the vector.
-
-This is the **full training repo** — data generation, SFT, GRPO RL, and
-checkpoint conversion. For a lightweight inference-only package (just
-`NLAClient` + `NLACritic`, no training deps), see
-[`kitft/nla-inference`](https://github.com/kitft/nla-inference).
-
-> **A note on naming.** Public-facing names are **AV** / **AR**. Inside the
-> `nla/` package you will see **actor** / **critic** — those are the same two
-> models, named to map directly onto Miles' RL primitives (the AV *is* the
-> policy actor; the AR *is* the value critic). The codebase keeps actor/critic
-> so the Miles extension points read naturally; everywhere user-facing we use
-> AV/AR.
 
 ---
 
-## Released checkpoints
+## Upstream
 
-All eight checkpoints are gathered in the
-**[`kitft/nla-models` collection](https://huggingface.co/collections/kitft/nla-models)**
-on the HF Hub — four base-model families, each with an AV and an AR. We extract
-from a layer roughly **two-thirds of the way through the model** in each case
-— deep enough that the residual stream carries rich semantic content, shallow
-enough that it hasn't yet collapsed toward the unembedding.
-
-| base model | layer | d_model | AV | AR |
-|---|---|---|---|---|
-| Qwen2.5-7B-Instruct | 20 / 28 | 3584 | [`kitft/nla-qwen2.5-7b-L20-av`](https://huggingface.co/kitft/nla-qwen2.5-7b-L20-av) | [`kitft/nla-qwen2.5-7b-L20-ar`](https://huggingface.co/kitft/nla-qwen2.5-7b-L20-ar) |
-| Gemma-3-12B-IT | 32 / 48 | 3840 | [`kitft/nla-gemma3-12b-L32-av`](https://huggingface.co/kitft/nla-gemma3-12b-L32-av) | [`kitft/nla-gemma3-12b-L32-ar`](https://huggingface.co/kitft/nla-gemma3-12b-L32-ar) |
-| Gemma-3-27B-IT | 41 / 62 | 5376 | [`kitft/nla-gemma3-27b-L41-av`](https://huggingface.co/kitft/nla-gemma3-27b-L41-av) | [`kitft/nla-gemma3-27b-L41-ar`](https://huggingface.co/kitft/nla-gemma3-27b-L41-ar) |
-| Llama-3.3-70B-Instruct | 53 / 80 | 8192 | [`kitft/Llama-3.3-70B-NLA-L53-av`](https://huggingface.co/kitft/Llama-3.3-70B-NLA-L53-av) | [`kitft/Llama-3.3-70B-NLA-L53-ar`](https://huggingface.co/kitft/Llama-3.3-70B-NLA-L53-ar) |
-
-Each checkpoint ships an `nla_meta.yaml` sidecar with the prompt template,
-injection token IDs, and scale factors that the model was trained with — load
-those, never hardcode them.
-
----
-
-## How it fits together
-
-NLA training is built as a thin extension on top of two open-source projects:
-
-- **[Miles](https://github.com/radixark/miles)** — Ray-orchestrated RL training
-  (FSDP2 / Megatron backends, GRPO, async rollout). We used the FSDP backend
-  for the 7B/12B/27B runs and Megatron only for Llama-70B. NLA plugs in via Miles'
-  upstream `--custom-rm-path`, `--data-source-path`, and
-  `--custom-generate-function-path` extension points; the integration patch in
-  `nla/miles_patches/` adds `--custom-actor-cls-path` and `--force-use-critic`
-  on top (see [docs/design.md §2](docs/design.md)).
-- **[SGLang](https://github.com/sgl-project/sglang)** — rollout serving. We
-  send `input_embeds` (not `input_ids`) so the AV sees the injected vector;
-  SGLang serves it like any other request. The embed sequence is built on the
-  **trainer side** — we look up the prompt tokens in the actor's own embedding
-  table, splice the activation vector in at the injection slot, and ship the
-  finished `[seq, d]` tensor over HTTP. SGLang never needs to know what an
-  injection is. We don't apply any learned map to the injected vector in this
-  work — it goes in raw (after a fixed scalar `injection_scale`) — but this
-  design means a future affine `W·v + b` adapter would be a trainer-side-only
-  change: apply it before sending, no SGLang modification required. (vLLM also
-  supports `input_embeds` and would work as a drop-in alternative.)
-
-We chose this stack because it is **near-frontier training infrastructure**:
-Miles + Megatron is what production-scale RL post-training looks like, and
-hooking onto it cleanly is what let us scale to RL-ing a 70B-parameter AV — and
-likely further. The `nla/` package never modifies Miles or SGLang in place; it
-only subclasses and registers function-pointer hooks, so upstream updates pull
-in cleanly.
-
----
-
-## Quick start
-
-### Inference (use a released checkpoint)
-
-```bash
-uv pip install torch transformers safetensors httpx orjson pyyaml numpy
-uv pip install "sglang[all]>=0.5.6"
-
-python -m sglang.launch_server --model-path kitft/nla-qwen2.5-7b-L20-av \
-    --port 30000 --disable-radix-cache &
-
-python nla_inference.py kitft/nla-qwen2.5-7b-L20-av \
-    --sglang-url http://localhost:30000 \
-    --parquet path/to/activations.parquet
-```
-
-Don't have a parquet yet? Any file with an `activation_vector` column of
-`d_model`-wide float lists will do — here's a minimal one for Qwen layer 20:
-
-```python
-import torch, pyarrow as pa, pyarrow.parquet as pq
-from transformers import AutoModelForCausalLM, AutoTokenizer
-tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-7B-Instruct")
-m = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B-Instruct",
-        torch_dtype=torch.bfloat16, device_map="cuda")
-ids = tok("The quick brown fox jumps over the lazy dog.", return_tensors="pt").to("cuda")
-hs = m(**ids, output_hidden_states=True).hidden_states[20][0]  # [seq, 3584]
-pq.write_table(pa.table({"activation_vector": hs.float().cpu().tolist()}), "demo.parquet")
-```
-
-(Or omit `--parquet` entirely for a smoke test on a random unit vector.)
-
-`nla_inference.py` is a single self-contained file. The full recipe —
-model-specific scale factors, the Gemma `√d` embed-scale gotcha, debugging the
-"output is in Chinese" failure mode, AR scoring — is in
-**[docs/inference.md](docs/inference.md)**. Worked transcripts in
-[`examples/`](examples/).
-
-### Training (reproduce a checkpoint)
-
-Install Miles + SGLang + this package per **[docs/setup.md](docs/setup.md)**,
-then run the three stages (Qwen7B reference: SFT on 2×H100-80GB; RL to ~75% FVE
-on 2×8×H100 — see [`configs/TRAINING_NOTES.md`](configs/TRAINING_NOTES.md)):
-
-```bash
-# 0. Generate data (GPU + ANTHROPIC_API_KEY)
-python -m nla.datagen.run_pipeline --config configs/datagen/qwen7b_fineweb_1M.yaml
-
-# 1. AR SFT (MSE on raw activations)
-bash configs/critic_sft.sh
-
-# 2. AV SFT (next-token on API-generated explanations, with injection)
-bash configs/actor_sft.sh
-
-# 3. RL: simultaneous AV (GRPO) + AR (supervised); reward = -mse_nrm
-bash configs/rl.sh
-```
-
-The full design — data transport through Miles' `multimodal_train_inputs`, the
-injection forward-hook, simultaneous AV/AR scheduling, why `cp_size==1` — is in
-**[docs/design.md](docs/design.md)**. Detailed profiling and hyperparameter
-notes (Qwen7B case study; we reused those settings with only light adjustment
-for the other models — a per-model sweep would likely do better):
-[`configs/TRAINING_NOTES.md`](configs/TRAINING_NOTES.md).
-
----
-
-## Repo layout
-
-```
-nla/                  core package
-  schema.py, config.py, models.py     — sidecar contract, NLACriticModel (the AR)
-  train_actor.py                      — NLAFSDPActor (Miles FSDP subclass)
-  megatron/                           — NLAMegatronActor (TP+PP, CP=1 only)
-  rollout/                            — SFT rollout, nla_generate (SGLang input_embeds)
-  reward.py, loss.py                  — -mse_nrm reward, AR MSE loss
-  datagen/                            — 4-stage activation → parquet pipeline
-configs/              training shell configs + datagen YAMLs
-scripts/              multi-GPU launch wrappers (datagen)
-patches/              SGLang training patches (bf16 transport, chunked-prefill) + apply script
-tools/                FSDP-DCP / Megatron-dist ↔ HF checkpoint converters
-docs/                 design.md (training), inference.md (serving)
-release/              HF model-card templates + sidecar sanitiser for releases
-nla_inference.py      standalone single-file inference client
-examples/             worked decode transcripts
-```
+This is a fork. The NLA method, the training code under `nla/`, and the released checkpoints are
+the work of the authors cited below; their full training and inference documentation lives in the
+upstream repository at <https://github.com/kitft/natural_language_autoencoders>. Everything under
+`bench/`, `scripts/` and `results/` is the audit, and is the only part this README documents.
 
 ---
 

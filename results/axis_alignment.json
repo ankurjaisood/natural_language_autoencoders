@@ -1,0 +1,45 @@
+{
+  "rows": [
+    {
+      "condition": "persona",
+      "probe_1d": 0.4899836315314161,
+      "probe_full": 0.6834263076527707,
+      "share_1d": 0.7169516684458139,
+      "readout": 0.601
+    },
+    {
+      "condition": "social proof",
+      "probe_1d": 0.7651371273911933,
+      "probe_full": 0.8594729509081172,
+      "share_1d": 0.8902399157329515,
+      "readout": 0.577
+    },
+    {
+      "condition": "sycophancy",
+      "probe_1d": 0.8466477191477193,
+      "probe_full": 0.8927746947354791,
+      "share_1d": 0.9483330163144613,
+      "readout": 0.829
+    },
+    {
+      "condition": "few-shot",
+      "probe_1d": 0.6973776696825971,
+      "probe_full": 0.7211804967335534,
+      "share_1d": 0.9669946328848789,
+      "readout": 0.598
+    }
+  ],
+  "corr_all": {
+    "1d_vs_readout": 0.5860717038402972,
+    "share_vs_readout": 0.36761264153695244
+  },
+  "corr_without_sycophancy": {
+    "1d_vs_readout": -0.7689150125110236,
+    "share_vs_readout": -0.32808170470381404
+  },
+  "readout_range_globalopinionqa": [
+    0.577,
+    0.601
+  ],
+  "verdict": "not testable here: readout performance is near-constant (0.577-0.601) across the GlobalOpinionQA conditions, and the sign of the correlation flips when the discounted sycophancy corpus is removed. Report axis alignment as a structural observation; the verbalization mechanism is a prediction, not a finding."
+}

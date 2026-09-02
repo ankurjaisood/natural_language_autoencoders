@@ -150,6 +150,9 @@ def main() -> None:
     ap.add_argument("--draws", type=int, default=5,
                     help="instantiations of the influence per claim")
     ap.add_argument("--shots", type=int, default=4)
+    ap.add_argument("--shot-letter", default="A", choices=["A", "random"],
+                    help="A reproduces the published runs; random draws the exemplar "
+                         "letter per trial, separating positional push from content")
     ap.add_argument("--corpus", default="globalopinions",
                     choices=["globalopinions", "sycophancy"])
     ap.add_argument("--claims", type=int, default=200)
@@ -168,14 +171,29 @@ def main() -> None:
     for ci, c in enumerate(claims):
         for d in range(args.draws):
             if args.influence == "fewshot":
-                # exemplars from OTHER claims, every one answered (A). The push is toward
-                # the letter, so the target is whatever this question puts at (A).
+                # exemplars from OTHER claims, every one answered with the same letter. The
+                # push is toward the letter, so the target is whatever this question puts
+                # there.
                 others = [j for j in range(len(claims)) if j != ci]
                 pick = rng.choice(others, min(args.shots, len(others)), replace=False)
+                if args.shot_letter == "A":
+                    want = "A"
+                else:
+                    # Slot (A) is not content-neutral in GlobalOpinionQA: options are listed
+                    # in a consistent order, so (A) holds the strongest affirmative choice
+                    # almost throughout. Fixing the letter therefore pushes toward position
+                    # AND content jointly. Drawing it per trial separates them.
+                    #
+                    # The letter must be valid in the test question and in every exemplar.
+                    # Letter sets are always a prefix of "ABCD", so the common set is the
+                    # shortest among them.
+                    n = min([len(c["letters"])]
+                            + [len(claims[int(j)]["letters"]) for j in pick])
+                    want = str(rng.choice(list("ABCD"[:n])))
                 shots = "\n\n".join(
-                    f"{claims[int(j)]['control']} (A)" for j in pick)
+                    f"{claims[int(j)]['control']} ({want})" for j in pick)
                 prompt = f"{shots}\n\n{c['control']}"
-                target = option_text(c["control"], "A")
+                target = option_text(c["control"], want)
             elif args.influence == "persona":
                 # The ORIGINAL influence, rebuilt on a corpus that breaks the entanglement.
                 # On the 32-claim sycophancy set, Gemma answers one way by default and the

@@ -28,12 +28,28 @@ results/queryability.md
 results/t7_queryability/queryability.md
 results/archive/README.md
 AUDIT.md
-introduction.md
-references.md
-references_substack.md
-figures/
-related_work.md
-methods.md
-results.md
-conclusion.md
-tables.md
+# Write-up prose, at the repository ROOT only. Anchored with a leading slash: unanchored,
+# these patterns match at any depth and silently swallowed same-named files in subdirectories
+# -- files that were written, reported as committed, and were not.
+/introduction.md
+/references*.md
+/figures/
+/related_work.md
+/methods.md
+/results.md
+/conclusion.md
+/tables.md
+
+# Recaptured all-layer activations: 582 MB across four files, each over GitHub's 100 MB
+# hard limit. Regenerable with `python -m bench.run_probe_cis --model qwen`, same reasoning
+# as the emotion activations above -- the derived JSON in results/ is the artifact.
+results/activations/
+
+# Reproduction output. reproduce.sh writes here and compare_repro.py diffs it against the
+# committed results/, so it is scratch rather than an artifact.
+results_repro*/
+
+# Agent settings. Currently caught only by a machine-local global ignore, which does not
+# travel with the repo -- this file records absolute paths under the developer's home
+# directory, so it is ignored here too.
+.claude/

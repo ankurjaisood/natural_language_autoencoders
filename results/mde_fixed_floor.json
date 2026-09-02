@@ -1,0 +1,36 @@
+{
+  "fixed_floor": 0.58,
+  "rows": [
+    {
+      "condition": "persona/qwen",
+      "own_floor_hi": 0.57564283706041,
+      "mde_own": 0.68125,
+      "mde_fixed": 0.6875
+    },
+    {
+      "condition": "social proof/qwen",
+      "own_floor_hi": 0.5701133252849931,
+      "mde_own": 0.6625000000000001,
+      "mde_fixed": 0.675
+    },
+    {
+      "condition": "few-shot/qwen",
+      "own_floor_hi": 0.5860021895216219,
+      "mde_own": 0.73125,
+      "mde_fixed": 0.725
+    },
+    {
+      "condition": "persona/gemma",
+      "own_floor_hi": 0.6149670791798079,
+      "mde_own": 0.7625,
+      "mde_fixed": 0.725
+    },
+    {
+      "condition": "social proof/gemma",
+      "own_floor_hi": 0.6051215886929444,
+      "mde_own": 0.75625,
+      "mde_fixed": 0.7375
+    }
+  ],
+  "ordering_preserved": false
+}

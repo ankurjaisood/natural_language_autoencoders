@@ -1,0 +1,459 @@
+{
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "n_pca": 50,
+  "c_grid": [
+    0.01,
+    0.03,
+    0.1,
+    0.3,
+    1.0,
+    3.0,
+    10.0
+  ],
+  "seed": 0,
+  "gate_failures": [],
+  "rows": [
+    {
+      "dataset": "sycophancy",
+      "target": "influence changed answer",
+      "n": 318,
+      "positives": 150,
+      "bow": {
+        "point": 0.8286683861095627,
+        "lo": 0.7244259439900315,
+        "hi": 0.9118071387537675,
+        "n_claims": 32,
+        "n_trials": 318,
+        "n_positives": 150,
+        "n_boot": 5000,
+        "redraws": 17,
+        "redraw_rate": 0.0033884791708192145,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.822045176064784,
+        "lo": 0.7623388821698125,
+        "hi": 0.8828541457552601,
+        "n_claims": 32,
+        "n_trials": 318,
+        "n_positives": 150,
+        "n_boot": 5000,
+        "redraws": 17,
+        "redraw_rate": 0.0033884791708192145,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.03,
+        0.01,
+        0.01,
+        0.01,
+        0.01
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "sycophancy",
+      "target": "direction of influence",
+      "n": 318,
+      "positives": 160,
+      "bow": {
+        "point": 0.9957124183006536,
+        "lo": 0.9924161470904826,
+        "hi": 0.9996638655462184,
+        "n_claims": 32,
+        "n_trials": 318,
+        "n_positives": 160,
+        "n_boot": 5000,
+        "redraws": 17,
+        "redraw_rate": 0.0033884791708192145,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.9935387488328665,
+        "lo": 0.9879851073870013,
+        "hi": 0.9984231717687075,
+        "n_claims": 32,
+        "n_trials": 318,
+        "n_positives": 160,
+        "n_boot": 5000,
+        "redraws": 17,
+        "redraw_rate": 0.0033884791708192145,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.1,
+        3.0,
+        10.0,
+        3.0,
+        0.1
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "sycophancy",
+      "target": "answer chosen",
+      "n": 316,
+      "positives": 161,
+      "bow": {
+        "point": 0.986555632384331,
+        "lo": 0.9757006929972356,
+        "hi": 0.9959915894203437,
+        "n_claims": 32,
+        "n_trials": 316,
+        "n_positives": 161,
+        "n_boot": 5000,
+        "redraws": 19,
+        "redraw_rate": 0.003785614664275752,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.9688061810419987,
+        "lo": 0.9486169873464255,
+        "hi": 0.9866941040886396,
+        "n_claims": 32,
+        "n_trials": 316,
+        "n_positives": 161,
+        "n_boot": 5000,
+        "redraws": 19,
+        "redraw_rate": 0.003785614664275752,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.1,
+        0.3,
+        0.03,
+        0.03,
+        0.3
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "social proof",
+      "target": "influence changed answer",
+      "n": 400,
+      "positives": 92,
+      "bow": {
+        "point": 0.5772205786743706,
+        "lo": 0.4954281519006305,
+        "hi": 0.6605721599089568,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 92,
+        "n_boot": 5000,
+        "redraws": 0,
+        "redraw_rate": 0.0,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.622979085907017,
+        "lo": 0.5500419071265091,
+        "hi": 0.7036574944166593,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 92,
+        "n_boot": 5000,
+        "redraws": 0,
+        "redraw_rate": 0.0,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        10.0,
+        0.01,
+        0.03,
+        10.0,
+        0.3
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "social proof",
+      "target": "direction of influence",
+      "status": "not measurable",
+      "reason": "a fold is single-class on the observed data; AUROC undefined"
+    },
+    {
+      "dataset": "social proof",
+      "target": "answer chosen",
+      "n": 80,
+      "positives": 41,
+      "bow": {
+        "point": 0.9800000000000001,
+        "lo": 0.9333333333333332,
+        "hi": 1.0,
+        "n_claims": 41,
+        "n_trials": 80,
+        "n_positives": 41,
+        "n_boot": 5000,
+        "redraws": 1199,
+        "redraw_rate": 0.19341829327310855,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.9220833333333335,
+        "lo": 0.8,
+        "hi": 1.0,
+        "n_claims": 41,
+        "n_trials": 80,
+        "n_positives": 41,
+        "n_boot": 5000,
+        "redraws": 1199,
+        "redraw_rate": 0.19341829327310855,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.03,
+        3.0,
+        0.01,
+        0.01,
+        0.01
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "persona",
+      "target": "influence changed answer",
+      "n": 400,
+      "positives": 76,
+      "bow": {
+        "point": 0.6005874695578548,
+        "lo": 0.5220941379411874,
+        "hi": 0.6783158213835561,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 76,
+        "n_boot": 5000,
+        "redraws": 1,
+        "redraw_rate": 0.0001999600079984003,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.5460738550812905,
+        "lo": 0.46229659528180655,
+        "hi": 0.626994254296869,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 76,
+        "n_boot": 5000,
+        "redraws": 1,
+        "redraw_rate": 0.0001999600079984003,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.01,
+        0.01,
+        1.0,
+        1.0,
+        10.0
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "persona",
+      "target": "direction of influence",
+      "n": 46,
+      "positives": 26,
+      "bow": {
+        "point": 0.8144047619047619,
+        "lo": 0.6584107142857142,
+        "hi": 0.9185185185185185,
+        "n_claims": 24,
+        "n_trials": 46,
+        "n_positives": 26,
+        "n_boot": 5000,
+        "redraws": 1622,
+        "redraw_rate": 0.2449411054062217,
+        "estimable": false,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.7077380952380953,
+        "lo": 0.5180928571428572,
+        "hi": 0.8761329365079361,
+        "n_claims": 24,
+        "n_trials": 46,
+        "n_positives": 26,
+        "n_boot": 5000,
+        "redraws": 1622,
+        "redraw_rate": 0.2449411054062217,
+        "estimable": false,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.03,
+        0.01,
+        0.01,
+        1.0,
+        0.03
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "persona",
+      "target": "answer chosen",
+      "n": 49,
+      "positives": 26,
+      "bow": {
+        "point": 0.992,
+        "lo": 0.9399615384615385,
+        "hi": 1.0,
+        "n_claims": 30,
+        "n_trials": 49,
+        "n_positives": 26,
+        "n_boot": 5000,
+        "redraws": 3390,
+        "redraw_rate": 0.40405244338498214,
+        "estimable": false,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.984,
+        "lo": 0.879923076923077,
+        "hi": 1.0,
+        "n_claims": 30,
+        "n_trials": 49,
+        "n_positives": 26,
+        "n_boot": 5000,
+        "redraws": 3390,
+        "redraw_rate": 0.40405244338498214,
+        "estimable": false,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.01
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "few-shot",
+      "target": "influence changed answer",
+      "n": 400,
+      "positives": 50,
+      "bow": {
+        "point": 0.597507560196908,
+        "lo": 0.501628293753025,
+        "hi": 0.6925517167889068,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 50,
+        "n_boot": 5000,
+        "redraws": 128,
+        "redraw_rate": 0.0249609984399376,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.6378139766319688,
+        "lo": 0.5485299088515447,
+        "hi": 0.7154537975155141,
+        "n_claims": 200,
+        "n_trials": 400,
+        "n_positives": 50,
+        "n_boot": 5000,
+        "redraws": 128,
+        "redraw_rate": 0.0249609984399376,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.01,
+        1.0,
+        0.01,
+        0.01,
+        0.01
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "few-shot",
+      "target": "direction of influence",
+      "n": 90,
+      "positives": 46,
+      "bow": {
+        "point": 0.9225,
+        "lo": 0.8316666666666667,
+        "hi": 0.982620238095238,
+        "n_claims": 45,
+        "n_trials": 90,
+        "n_positives": 46,
+        "n_boot": 5000,
+        "redraws": 534,
+        "redraw_rate": 0.09649439826526925,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "embedding": {
+        "point": 0.95,
+        "lo": 0.8881232638888888,
+        "hi": 0.9912544642857142,
+        "n_claims": 45,
+        "n_trials": 90,
+        "n_positives": 46,
+        "n_boot": 5000,
+        "redraws": 534,
+        "redraw_rate": 0.09649439826526925,
+        "estimable": true,
+        "seed": 0,
+        "estimator": "per_fold_mean"
+      },
+      "penalties": [
+        0.01,
+        0.03,
+        0.01,
+        0.01,
+        0.03
+      ],
+      "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "n_pca": 50
+    },
+    {
+      "dataset": "few-shot",
+      "target": "answer chosen",
+      "status": "not measurable",
+      "reason": "a fold is single-class on the observed data; AUROC undefined"
+    }
+  ]
+}
