@@ -1,0 +1,484 @@
+{
+  "power_target": 0.8,
+  "grid": [
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95
+  ],
+  "seed": 0,
+  "note": "scores simulated with each condition's own claim-level ICC; labels, claim sizes and fold assignments taken from the real data",
+  "conditions": [
+    {
+      "dataset": "persona",
+      "model": "qwen",
+      "n_positives": 76,
+      "n_claims": 200,
+      "claims_with_positives": 64,
+      "score_icc": 0.6339813739284041,
+      "floor_hi": 0.57564283706041,
+      "observed": 0.6005874695578548,
+      "observed_estimable": true,
+      "mde": 0.68125,
+      "bounds_the_null": true,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5500011874645362,
+          "d": 0.16282349824905396,
+          "power": 0.0,
+          "usable_sims": 600
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.5999981347293015,
+          "d": 0.3432084918022156,
+          "power": 0.09,
+          "usable_sims": 600
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.6499992698262317,
+          "d": 0.5292558073997498,
+          "power": 0.53,
+          "usable_sims": 600
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.6999999527211901,
+          "d": 0.7265819907188416,
+          "power": 0.95,
+          "usable_sims": 600
+        },
+        {
+          "true_auroc": 0.675,
+          "achieved": 0.6749986055812413,
+          "d": 0.6270977854728699,
+          "power": 0.76,
+          "usable_sims": 600,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.6875,
+          "achieved": 0.6874985828092143,
+          "d": 0.6764944195747375,
+          "power": 0.86,
+          "usable_sims": 600,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.68125,
+          "achieved": 0.6812496899432767,
+          "d": 0.6518248915672302,
+          "power": 0.81,
+          "usable_sims": 600,
+          "refinement": true
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    },
+    {
+      "dataset": "social proof",
+      "model": "qwen",
+      "n_positives": 92,
+      "n_claims": 200,
+      "claims_with_positives": 74,
+      "score_icc": 0.750786466478966,
+      "floor_hi": 0.5701133252849931,
+      "observed": 0.5772205786743706,
+      "observed_estimable": true,
+      "mde": 0.6625000000000001,
+      "bounds_the_null": true,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5500007792022594,
+          "d": 0.18270045518875122,
+          "power": 0.02,
+          "usable_sims": 599
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.6000008164023756,
+          "d": 0.36296671628952026,
+          "power": 0.24,
+          "usable_sims": 599
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.6500003423476628,
+          "d": 0.5501888394355774,
+          "power": 0.7,
+          "usable_sims": 599
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.6999997040565332,
+          "d": 0.7469338774681091,
+          "power": 1.0,
+          "usable_sims": 599
+        },
+        {
+          "true_auroc": 0.675,
+          "achieved": 0.6750016358579127,
+          "d": 0.6467562317848206,
+          "power": 0.88,
+          "usable_sims": 599,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.6625000000000001,
+          "achieved": 0.662502141206019,
+          "d": 0.598480761051178,
+          "power": 0.81,
+          "usable_sims": 599,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.65625,
+          "achieved": 0.6562504779011289,
+          "d": 0.5740805268287659,
+          "power": 0.75,
+          "usable_sims": 599,
+          "refinement": true
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    },
+    {
+      "dataset": "few-shot",
+      "model": "qwen",
+      "n_positives": 50,
+      "n_claims": 200,
+      "claims_with_positives": 37,
+      "score_icc": 0.5778484795889873,
+      "floor_hi": 0.5860021895216219,
+      "observed": 0.597507560196908,
+      "observed_estimable": true,
+      "mde": 0.73125,
+      "bounds_the_null": true,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5499982476478064,
+          "d": 0.1568886637687683,
+          "power": 0.01,
+          "usable_sims": 589
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.5999986627952114,
+          "d": 0.3386719822883606,
+          "power": 0.02,
+          "usable_sims": 589
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.6499991706118912,
+          "d": 0.5255067944526672,
+          "power": 0.17,
+          "usable_sims": 589
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.6999988044822802,
+          "d": 0.7232231497764587,
+          "power": 0.54,
+          "usable_sims": 589
+        },
+        {
+          "true_auroc": 0.75,
+          "achieved": 0.7499995150565603,
+          "d": 0.9354405999183655,
+          "power": 0.92,
+          "usable_sims": 589
+        },
+        {
+          "true_auroc": 0.725,
+          "achieved": 0.7250014393504902,
+          "d": 0.8265597224235535,
+          "power": 0.76,
+          "usable_sims": 589,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.7375,
+          "achieved": 0.7374977762559575,
+          "d": 0.8801166415214539,
+          "power": 0.83,
+          "usable_sims": 589,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.73125,
+          "achieved": 0.7312502728427209,
+          "d": 0.8530341982841492,
+          "power": 0.81,
+          "usable_sims": 589,
+          "refinement": true
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    },
+    {
+      "dataset": "persona",
+      "model": "gemma",
+      "n_positives": 29,
+      "n_claims": 200,
+      "claims_with_positives": 26,
+      "score_icc": 0.8283808364154206,
+      "floor_hi": 0.6149670791798079,
+      "observed": 0.6260021096223332,
+      "observed_estimable": true,
+      "mde": 0.7625,
+      "bounds_the_null": true,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5500051470866179,
+          "d": 0.19668155908584595,
+          "power": 0.0,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.5999989803665452,
+          "d": 0.3780897259712219,
+          "power": 0.02,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.649998588188161,
+          "d": 0.5663700699806213,
+          "power": 0.13,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.7000038527939122,
+          "d": 0.7645513415336609,
+          "power": 0.39,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.75,
+          "achieved": 0.7499996590601313,
+          "d": 0.9792965054512024,
+          "power": 0.71,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.8,
+          "achieved": 0.7999985395505853,
+          "d": 1.2166205048561096,
+          "power": 0.97,
+          "usable_sims": 546
+        },
+        {
+          "true_auroc": 0.775,
+          "achieved": 0.775002509820282,
+          "d": 1.0934595465660095,
+          "power": 0.9,
+          "usable_sims": 546,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.7625,
+          "achieved": 0.7624971270885114,
+          "d": 1.0353407263755798,
+          "power": 0.82,
+          "usable_sims": 546,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.75625,
+          "achieved": 0.7562516374650476,
+          "d": 1.0067387223243713,
+          "power": 0.76,
+          "usable_sims": 546,
+          "refinement": true
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    },
+    {
+      "dataset": "social proof",
+      "model": "gemma",
+      "n_positives": 36,
+      "n_claims": 200,
+      "claims_with_positives": 29,
+      "score_icc": 0.7794597986317481,
+      "floor_hi": 0.6051215886929444,
+      "observed": 0.7043177926656188,
+      "observed_estimable": true,
+      "mde": 0.75625,
+      "bounds_the_null": true,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5500008550165073,
+          "d": 0.17946141958236694,
+          "power": 0.01,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.6000012891717239,
+          "d": 0.36015504598617554,
+          "power": 0.03,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.6499983534522664,
+          "d": 0.5459101796150208,
+          "power": 0.15,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.7000028053575881,
+          "d": 0.7415762543678284,
+          "power": 0.41,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.75,
+          "achieved": 0.7500018410053193,
+          "d": 0.9535344243049622,
+          "power": 0.76,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.8,
+          "achieved": 0.8000007896999201,
+          "d": 1.188880741596222,
+          "power": 0.96,
+          "usable_sims": 555
+        },
+        {
+          "true_auroc": 0.775,
+          "achieved": 0.7749975853210636,
+          "d": 1.067990005016327,
+          "power": 0.88,
+          "usable_sims": 555,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.7625,
+          "achieved": 0.7624992136574746,
+          "d": 1.0106915831565857,
+          "power": 0.84,
+          "usable_sims": 555,
+          "refinement": true
+        },
+        {
+          "true_auroc": 0.75625,
+          "achieved": 0.7562513490791751,
+          "d": 0.9823599457740784,
+          "power": 0.82,
+          "usable_sims": 555,
+          "refinement": true
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    },
+    {
+      "dataset": "few-shot",
+      "model": "gemma",
+      "n_positives": 22,
+      "n_claims": 200,
+      "claims_with_positives": 14,
+      "score_icc": 0.44183585912108225,
+      "floor_hi": 0.6387704724600954,
+      "observed": 0.6154598918297549,
+      "observed_estimable": false,
+      "mde": null,
+      "bounds_the_null": false,
+      "curve": [
+        {
+          "true_auroc": 0.55,
+          "achieved": 0.5499990621675913,
+          "d": 0.2138391137123108,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.6,
+          "achieved": 0.5999989038217228,
+          "d": 0.39353352785110474,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.65,
+          "achieved": 0.6500008217364022,
+          "d": 0.5809959769248962,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.7,
+          "achieved": 0.6999945609210209,
+          "d": 0.7747305035591125,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.75,
+          "achieved": 0.7499983576713929,
+          "d": 0.9865120053291321,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.8,
+          "achieved": 0.8000007519560512,
+          "d": 1.218447983264923,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.85,
+          "achieved": 0.8500009246541331,
+          "d": 1.494821012020111,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.9,
+          "achieved": 0.9000085403185619,
+          "d": 1.8426108956336975,
+          "power": NaN,
+          "usable_sims": 270
+        },
+        {
+          "true_auroc": 0.95,
+          "achieved": 0.9500036770217014,
+          "d": 2.3497783541679382,
+          "power": NaN,
+          "usable_sims": 270
+        }
+      ],
+      "n_sims": 100,
+      "n_boot": 600,
+      "seed": 0
+    }
+  ]
+}
